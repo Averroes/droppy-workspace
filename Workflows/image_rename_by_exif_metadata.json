@@ -1,0 +1,30 @@
+{
+  "name": "Image rename by EXIF metadata",
+  "author": "guenther@droppyapp.com",
+  "description": "Rename an image using info from its EXIF metadata.",
+  "documentation": "https://docs.droppyapp.com/workflows/image-rename-by-exif-metadata",
+  "image": "folder-pictures.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "Image.RenameByExif"
+    },
+    {
+      "task": "FileSystem.DeleteOriginals"
+    },
+    {
+      "task": "FileSystem.CopyToSourceDirectory",
+      "kwargs":
+      {
+        "fallback_path": "~/Downloads"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Video extract mp3",
+  "author": "guenther@droppyapp.com",
+  "description": "Extract the audio track inside a video file as an mp3.",
+  "documentation": "https://docs.droppyapp.com/workflows/video-extract-mp3",
+  "image": "folder-music.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "Video.Transcode",
+      "kwargs":
+      {
+        "extension": "mp3",
+        "other_args": "-q:a 0 -map a"
+      }
+    },
+    {
+      "task": "FileSystem.CopyToSourceDirectory"
+    }
+  ]
+}

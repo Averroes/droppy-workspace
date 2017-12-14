@@ -1,0 +1,45 @@
+{
+  "name": "Document markdown add ToC",
+  "author": "guenther@droppyapp.com",
+  "description": "Add a 'Table of Contents' section to the beginning of a markdown file.",
+  "documentation": "https://docs.droppyapp.com/workflows/document-markdown-add-toc",
+  "image": "markdown.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "Filter.ByExtensions",
+      "kwargs":
+      {
+        "extensions": ["md"]
+      }
+    },
+        {
+      "task": "Markdown.RemoveSection",
+      "kwargs":
+      {
+        "section_start_regex": "^# Table of Contents$",
+        "section_end_regex": "^---$"
+      }
+    },
+    {
+      "task": "Markdown.AddToc"
+    },
+    {
+      "task": "Text.RemoveMultiNewlines"
+    },
+    {
+      "task": "FileSystem.CopyToSourceDirectory",
+      "kwargs":
+      {
+        "overwrite_existing": true
+      }
+    }
+  ]
+}

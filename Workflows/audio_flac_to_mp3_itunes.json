@@ -1,0 +1,38 @@
+{
+  "name": "Audio flac to mp3 iTunes",
+  "author": "guenther@droppyapp.com",
+  "description": "Convert any dropped FLAC file to an mp3 and import it into iTunes.",
+  "documentation": "https://docs.droppyapp.com/workflows/audio-flac-to-mp3-itunes",
+  "image": "flac.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "Filter.ByExtensions",
+      "kwargs":
+      {
+        "extensions": ["flac"]
+      }
+    },
+    {
+      "task": "Audio.FlacToMp3",
+      "kwargs":
+      {
+        "copy_tags": true
+      }
+    },
+    {
+      "task": "FileSystem.CopyToDirectory",
+      "kwargs": {
+        "directory": "~/Music/iTunes/iTunes Media/Automatically Add to iTunes.localized",
+        "overwrite_existing": true
+      }
+    }
+  ]
+}

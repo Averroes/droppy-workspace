@@ -1,0 +1,27 @@
+{
+  "name": "Video download from YouTube",
+  "author": "guenther@droppyapp.com",
+  "description": "Download a video from YouTube and put it into the Downloads folder.",
+  "documentation": "https://docs.droppyapp.com/workflows/video-download-from-youtube",
+  "image": "folder-video.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files", "public.url"]
+      }
+    },
+    {
+      "task": "Web.YouTubeDownload"
+    },
+    {
+      "task": "FileSystem.CopyToDirectory",
+      "kwargs":
+      {
+        "directory": "~/Downloads"
+      }
+    }
+  ]
+}

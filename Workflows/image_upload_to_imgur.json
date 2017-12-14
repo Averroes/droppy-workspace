@@ -1,0 +1,38 @@
+{
+  "name": "Image upload to Imgur",
+  "author": "guenther@droppyapp.com",
+  "description": "Upload an image to the popular image hosting service imgur.com.",
+  "documentation": "https://docs.droppyapp.com/workflows/image-upload-to-imgur",
+  "image": "cloud.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "Filter.ByExtensions",
+      "kwargs":
+      {
+        "extensions": ["png", "gif", "jpg", "jpeg"]
+      }
+    },
+    {
+      "task": "Web.ImgurUpload",
+      "kwargs":
+      {
+        "client_id": ""
+      }
+    },
+    {
+      "task": "MacOS.OpenFilesInApp",
+      "kwargs":
+      {
+        "app_name": "Finder"
+      }
+    }
+  ]
+}

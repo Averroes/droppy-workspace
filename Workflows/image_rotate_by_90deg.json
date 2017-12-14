@@ -1,0 +1,28 @@
+{
+  "name": "Image rotate by 90°",
+  "author": "guenther@droppyapp.com",
+  "description": "Rotate any dropped image clockwise by 90 degrees, overwriting the source file.",
+  "documentation": "https://docs.droppyapp.com/workflows/image-rotate-by-90deg",
+  "image": "image-rotate.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "Image.Rotate"
+    },
+    {
+      "task": "FileSystem.CopyToSourceDirectory",
+      "kwargs":
+      {
+        "fallback_path": "~/Downloads",
+        "overwrite_existing": true
+      }
+    }
+  ]
+}

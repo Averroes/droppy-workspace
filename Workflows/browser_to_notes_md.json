@@ -1,0 +1,27 @@
+{
+  "name": "Browser to notes.md",
+  "author": "guenther@droppyapp.com",
+  "description": "Add text from browser to a markdown file in Documents.",
+  "documentation": "https://docs.droppyapp.com/workflows/browser-to-notes-md",
+  "image": "markdown.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["public.html"]
+      }
+    },
+    {
+      "task": "Markdown.FromHtml"
+    },
+    {
+      "task": "Text.Append",
+      "kwargs":
+      {
+        "target_file": "~/Documents/my_web_notes.md"
+      }
+    }
+  ]
+}

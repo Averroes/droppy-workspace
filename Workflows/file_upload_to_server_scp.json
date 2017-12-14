@@ -1,0 +1,29 @@
+{
+  "name": "File upload to server SCP",
+  "author": "guenther@droppyapp.com",
+  "description": "Upload a file into a folder on the server and delete the original.",
+  "documentation": "https://docs.droppyapp.com/workflows/file-upload-to-server-scp",
+  "image": "cloud.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "FileSystem.ScpUpload",
+      "kwargs":
+      {
+        "server_address": "my.server.com",
+        "remote_path": "/full/path/to/target/directory",
+        "username": "myuser"
+      }
+    },
+    {
+      "task": "FileSystem.DeleteOriginals"
+    }
+  ]
+}

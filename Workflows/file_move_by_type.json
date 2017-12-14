@@ -1,0 +1,40 @@
+{
+  "name": "File move by Type",
+  "author": "guenther@droppyapp.com",
+  "description": "Move files to different directories according to their extension.",
+  "documentation": "https://docs.droppyapp.com/workflows/file-move-by-type",
+  "image": "folder.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "FileSystem.PatternCopyToDirectory",
+      "kwargs":
+      {
+        "patterns": [
+          "^.+\\.(jpg|jpeg|gif|png|tiff|psd)",
+          "^.+\\.(m4a|mp3|ogg|flac)",
+          "^.+\\.(m4v|mpeg|mpg|avi)",
+          "^.+\\.(docx|doc|xlsx|xls|pptx|ppt)",
+          "^.+"
+        ],
+        "directories": [
+          "~/Pictures",
+          "~/Music",
+          "~/Movies",
+          "~/Documents",
+          "~/Desktop"
+        ]
+      }
+    },
+    {
+      "task": "FileSystem.DeleteOriginals"
+    }
+  ]
+}

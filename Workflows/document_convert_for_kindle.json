@@ -1,0 +1,33 @@
+{
+  "name": "Document convert for Kindle",
+  "author": "guenther@droppyapp.com",
+  "description": "Convert a document so that Amazon's Kindle supports it (mobi format).",
+  "documentation": "https://docs.droppyapp.com/workflows/document-convert-for-kindle",
+  "image": "kindle.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "Filter.ByExtensions",
+      "kwargs":
+      {
+        "extensions": ["azw", "azw3", "azw4", "cbz", "cbr", "cbc", "chm", "djvu", "docx", "epub", "fb2", "html", "htmlz", "lit", "lrf", "mobi", "odt", "pdf", "prc", "pdb", "pml", "rb", "rtf", "snb", "tcr", "txt", "txtz"]
+      }
+    },
+    {
+      "task": "Calibre.Convert"
+    },
+    {
+      "task": "FileSystem.CopyToSourceDirectory",
+      "kwargs": {
+        "fallback_path": "~/Downloads"
+      }
+    }
+  ]
+}

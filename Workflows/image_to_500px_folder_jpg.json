@@ -1,0 +1,48 @@
+{
+  "name": "Image to 500px folder.jpg",
+  "author": "guenther@droppyapp.com",
+  "description": "Convert any dropped image to a 500x500px jpg file and rename it to 'folder.jpg'.",
+  "documentation": "https://docs.droppyapp.com/workflows/image-to-500px-folder-jpg",
+  "image": "image.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files", "public.tiff"]
+      }
+    },
+    {
+      "task": "Image.Convert",
+      "kwargs":
+      {
+        "extension": "jpg"
+      }
+    },
+    {
+      "task": "Image.Resize",
+      "kwargs":
+      {
+        "height": 500,
+        "width": 500
+      }
+    },
+    {
+      "task": "FileSystem.Rename",
+      "kwargs":
+      {
+        "name": "folder.jpg"
+      }
+    },
+    {
+      "task": "FileSystem.DeleteOriginals"
+    },
+    {
+      "task": "FileSystem.CopyToSourceDirectory",
+      "kwargs": {
+        "fallback_path": "~/Downloads"
+      }
+    }
+  ]
+}

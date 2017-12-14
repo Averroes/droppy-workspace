@@ -1,0 +1,24 @@
+{
+  "name": "File copy to Documents",
+  "author": "guenther@droppyapp.com",
+  "description": "Copy files or folders to my documents folder, leaving the originals in place.",
+  "documentation": "https://docs.droppyapp.com/workflows/file-copy-to-documents",
+  "image": "folder-documents.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "FileSystem.CopyToDirectory",
+      "kwargs":
+      {
+        "directory": "~/Documents"
+      }
+    }
+  ]
+}

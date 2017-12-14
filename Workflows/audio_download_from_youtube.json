@@ -1,0 +1,35 @@
+{
+  "name": "Audio download from YouTube",
+  "author": "guenther@droppyapp.com",
+  "description": "Download a video from YouTube, extract the audio as an mp3 and put it into the Downloads folder.",
+  "documentation": "https://docs.droppyapp.com/workflows/audio-download-from-youtube",
+  "image": "folder-music.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files", "public.url"]
+      }
+    },
+    {
+      "task": "Web.YouTubeDownload"
+    },
+    {
+      "task": "Video.Transcode",
+      "kwargs":
+      {
+        "extension": "mp3",
+        "other_args": "-q:a 0 -map a"
+      }
+    },
+    {
+      "task": "FileSystem.CopyToDirectory",
+      "kwargs":
+      {
+        "directory": "~/Downloads"
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "Image run OCR",
+  "author": "guenther@droppyapp.com",
+  "description": "Do a quick OCR run on an image file.",
+  "documentation": "https://docs.droppyapp.com/workflows/image-run-ocr",
+  "image": "image.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "Filter.ByExtensions",
+      "kwargs":
+      {
+        "extensions": ["jpg", "jpeg", "tiff", "gif", "png", "bmp"]
+      }
+    },
+    {
+      "task": "Image.Ocr"
+    },
+    {
+      "task": "FileSystem.CopyToSourceDirectory",
+      "kwargs":
+      {
+        "fallback_path": "~/Downloads"
+      }
+    }
+  ]
+}
