@@ -40,4 +40,13 @@ class Task(object):
         output_file = os.path.join(output_dir, output_file_name + '.' + extension)
 
         input_image = Image.open(input_file)
-        input_image.save(output_file)
+
+        # Discard transparency for file formats that don't support it.
+        if extension.lower() in ['jpg', 'jpeg', 'tiff', 'bmp']:
+            print('Discarding transparent parts.')
+            non_transparent_image = Image.new('RGB', input_image.size, (255, 255, 255, 255))
+            non_transparent_image.paste(input_image, (0, 0), input_image)
+
+            non_transparent_image.save(output_file)
+        else:
+            input_image.save(output_file)
