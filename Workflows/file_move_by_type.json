@@ -1,7 +1,7 @@
 {
   "name": "File move by Type",
   "author": "guenther@droppyapp.com",
-  "description": "Move files to different directories according to their extension.",
+  "description": "Move files to different folders according to their extension.",
   "documentation": "https://docs.droppyapp.com/workflows/file-move-by-type",
   "image": "folder.png",
   "interpreterName": "macOS pre-installed",
