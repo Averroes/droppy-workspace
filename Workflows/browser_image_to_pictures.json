@@ -1,7 +1,7 @@
 {
   "name": "Browser image to Pictures",
   "author": "guenther@droppyapp.com",
-  "description": "Save an image from a website to your Pictures directory as jpg.",
+  "description": "Save an image from a website to the Pictures folder as jpg.",
   "documentation": "https://docs.droppyapp.com/workflows/browser-image-to-pictures",
   "image": "folder-pictures.png",
   "interpreterName": "macOS pre-installed",

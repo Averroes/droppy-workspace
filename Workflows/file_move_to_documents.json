@@ -1,7 +1,7 @@
 {
   "name": "File move to Documents",
   "author": "guenther@droppyapp.com",
-  "description": "Copy files or folders to my documents folder, and delete the originals to macOS Trash.",
+  "description": "Copy files or folders to the Documents folder, and delete the originals to macOS Trash.",
   "documentation": "https://docs.droppyapp.com/workflows/file-move-to-documents",
   "image": "folder-documents.png",
   "interpreterName": "macOS pre-installed",

@@ -1,7 +1,7 @@
 {
   "name": "Extract all contained data",
   "author": "guenther@droppyapp.com",
-  "description": "Extract all contained file formats and metadata from the dropped object and put it in a timestamped directory in Downloads.",
+  "description": "Extract all contained file formats and metadata from the dropped object and put it in a timestamped folder in Downloads.",
   "documentation": "https://docs.droppyapp.com/workflows/extract-all-contained-data",
   "image": "default.png",
   "interpreterName": "macOS pre-installed",
