@@ -19,7 +19,7 @@ class Task(object):
         # Get keyword arguments.
         server_address = kwargs.get(str('server_address'), '')
         remote_path = kwargs.get(str('remote_path'), '')
-        username = kwargs.get(str('username'), 'my-username')
+        username = kwargs.get(str('username'), '')
         scp_exe = kwargs.get(str('executable'), '/usr/bin/scp')
 
         # Check for required arguments.
@@ -27,6 +27,8 @@ class Task(object):
             sys.exit('No server_address passed')
         if len(remote_path) == 0:
             sys.exit('No remote_path passed')
+        if len(username) == 0:
+            sys.exit('No username passed')
 
         # Check for required external executable.
         if not os.path.isfile(scp_exe):
