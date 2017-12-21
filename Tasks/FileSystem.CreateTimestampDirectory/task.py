@@ -16,7 +16,7 @@ class Task(object):
     """
     def __init__(self, input_paths, output_dir, **kwargs):
         # Get keyword arguments.
-        name_pattern = kwargs.get(str('name_pattern'), '%Y-%m-%d %H%M%S')
+        name_pattern = kwargs.get(str('name_pattern'), '%Y-%m-%d_%H%M%S')
 
         # Check required argument.
         if len(name_pattern) == 0:
