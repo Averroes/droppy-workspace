@@ -46,6 +46,7 @@ class Task(object):
     def upload_files(input_file, scp_exe, username, server_address, remote_path):
         command = scp_exe
         command += ' -r'
+        command += ' -o StrictHostKeyChecking=no'
         command += ' "%s"' % sanitize_file_path_for_shell(input_file)
         command += ' %s@%s:%s' % (username, server_address, remote_path)
 
