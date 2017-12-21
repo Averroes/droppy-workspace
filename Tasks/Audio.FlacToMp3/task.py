@@ -54,7 +54,6 @@ class Task(object):
         lame_exe = kwargs.get(str('lame_executable'), '/usr/local/bin/lame')
         metaflac_exe = kwargs.get(str('metaflac_executable'), '/usr/local/bin/metaflac')
         copy_tags = kwargs.get(str('copy_tags'), False)
-        extension = kwargs.get(str('extension'), 'mp3')
         quality = kwargs.get(str('quality'), 'V0')
 
         # Check for required external executables.
@@ -68,8 +67,7 @@ class Task(object):
         # Process files and directories.
         for input_path in input_paths:
             if os.path.isfile(input_path):
-                self.transcode_file(input_path, output_dir, copy_tags, flac_exe, lame_exe, metaflac_exe,
-                                    extension, quality)
+                self.transcode_file(input_path, output_dir, copy_tags, flac_exe, lame_exe, metaflac_exe, quality)
 
             elif os.path.isdir(input_path):
                 output_sub_dir = os.path.join(output_dir, os.path.basename(input_path))
@@ -79,12 +77,12 @@ class Task(object):
 
                 for contained_file in contained_files:
                     self.transcode_file(contained_file, output_sub_dir, copy_tags, flac_exe, lame_exe, metaflac_exe,
-                                        extension, quality)
+                                        quality)
 
     @staticmethod
-    def transcode_file(input_file, output_dir, copy_tags, flac_exe, lame_exe, metaflac_exe, extension, quality):
+    def transcode_file(input_file, output_dir, copy_tags, flac_exe, lame_exe, metaflac_exe, quality):
         output_file_name, _ = os.path.splitext(os.path.basename(input_file))
-        output_file = os.path.join(output_dir, output_file_name + '.' + extension)
+        output_file = os.path.join(output_dir, output_file_name + '.mp3')
 
         # Piping flac's output into lame leads to a file with no tags at all.
         # Get all relevant tags from the source file beforehand if they should be copied.
