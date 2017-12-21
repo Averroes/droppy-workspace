@@ -53,7 +53,6 @@ class Task(object):
     @staticmethod
     def delete_to_trash(item_path):
         # Source: http://www.anthonysmith.me.uk/2008/01/08/moving-files-to-trash-from-the-mac-command-line/
-        # More Bash scripts: https://github.com/morgant/tools-osx
         command = '/usr/bin/osascript -e "tell app \\\"Finder\\\" to move POSIX file \\\"%s\\\" to trash"' % item_path
         exit_code = subprocess.call(command, shell=True)
         if exit_code > 0:
