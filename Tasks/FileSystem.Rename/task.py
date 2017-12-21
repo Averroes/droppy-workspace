@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 import os
+import sys
 from shutil import copyfile
 import datetime
 from distutils.dir_util import copy_tree
@@ -14,9 +15,13 @@ class Task(object):
     """
     def __init__(self, input_paths, output_dir, **kwargs):
         # Get keyword arguments.
-        name = kwargs.get(str('name'), 'new_name.ext')
+        name = kwargs.get(str('name'), '')
         timestamp_prefix = kwargs.get(str('timestamp_prefix'), False)
         timestamp_pattern = kwargs.get(str('timestamp_pattern'), '%Y-%m-%d_%H%M%S')
+
+        # Check required argument.
+        if len(name) == 0:
+            sys.exit('No new name provided')
 
         # Process files and directories.
         for input_path in input_paths:
