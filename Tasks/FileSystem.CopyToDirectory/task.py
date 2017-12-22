@@ -6,7 +6,7 @@ import os
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, 'DropPy.Common')))
-from file_tools import copy_file, copy_tree, home_dir_to_absolute_path
+from file_tools import copy_file, copy_tree
 from task_tools import pass_input_to_output
 
 
@@ -22,7 +22,7 @@ class Task(object):
 
         # Check required argument.
         if len(directory) > 0:
-            directory = home_dir_to_absolute_path(directory)
+            directory = os.path.expanduser(directory)
             self.check_target_directory(directory, create)
         else:
             sys.exit('No directory passed to copy to')

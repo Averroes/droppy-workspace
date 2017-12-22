@@ -57,10 +57,3 @@ def get_file_paths_from_directory(dir_path):
         for f in files:
             file_paths.append(os.path.join(root, f))
     return file_paths
-
-
-def home_dir_to_absolute_path(file_path):
-    """
-    Expand the ~ in file_path to its absolute path.
-    """
-    return os.path.expanduser(file_path)

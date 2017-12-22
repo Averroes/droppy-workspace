@@ -6,7 +6,7 @@ import os
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, 'DropPy.Common')))
-from file_tools import copy_file, copy_tree, home_dir_to_absolute_path
+from file_tools import copy_file, copy_tree
 from task_tools import get_original_paths, pass_input_to_output
 
 
@@ -49,14 +49,14 @@ class Task(object):
             return parent_paths[0]
         elif len(parent_paths) > 1:
             if fallback_path != '':
-                fallback_path_abs = home_dir_to_absolute_path(fallback_path)
+                fallback_path_abs = os.path.expanduser(fallback_path)
                 print('Files originate from multiple directories. Using fallback path: %s' % fallback_path_abs)
                 return fallback_path_abs
             else:
                 sys.exit('Can\'t continue, files originate from multiple directories: %s' % parent_paths)
         else:
             if fallback_path != '':
-                fallback_path_abs = home_dir_to_absolute_path(fallback_path)
+                fallback_path_abs = os.path.expanduser(fallback_path)
                 print('No parent paths found. Using fallback path: %s' % fallback_path_abs)
                 return fallback_path_abs
             else:

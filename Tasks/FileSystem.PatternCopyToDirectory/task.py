@@ -7,7 +7,7 @@ import re
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, 'DropPy.Common')))
-from file_tools import copy_file, copy_tree, home_dir_to_absolute_path
+from file_tools import copy_file, copy_tree
 from task_tools import pass_input_to_output
 
 
@@ -67,18 +67,18 @@ class Task(object):
                 cls.check_target_directory(directories[n], create)
 
                 if os.path.isfile(input_path):
-                    copy_file(home_dir_to_absolute_path(input_path), home_dir_to_absolute_path(target_path), overwrite)
+                    copy_file(os.path.expanduser(input_path), os.path.expanduser(target_path), overwrite)
                     print('Successfully copied file: %s' % target_name)
                 
                 elif os.path.isdir(input_path):
-                    copy_tree(home_dir_to_absolute_path(input_path), home_dir_to_absolute_path(target_path), overwrite)
+                    copy_tree(os.path.expanduser(input_path), os.path.expanduser(target_path), overwrite)
                     print('Successfully copied directory: %s' % target_name)
 
                 break
 
     @classmethod
     def check_target_directory(cls, directory, create):
-        if os.path.isdir(home_dir_to_absolute_path(directory)):
+        if os.path.isdir(os.path.expanduser(directory)):
             print('Target directory exists: %s' % directory)
             return
         else:

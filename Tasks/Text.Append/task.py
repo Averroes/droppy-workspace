@@ -7,7 +7,7 @@ import os
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, 'DropPy.Common')))
-from file_tools import get_file_paths_from_directory, home_dir_to_absolute_path, touch_file
+from file_tools import get_file_paths_from_directory, touch_file
 
 
 class Task(object):
@@ -20,7 +20,7 @@ class Task(object):
 
         # Check required argument.
         if len(target_file) > 0:
-            target_file = home_dir_to_absolute_path(target_file)
+            target_file = os.path.expanduser(target_file)
             print('Appending to "%s".' % target_file)
             if not os.path.isfile(target_file):
                 touch_file(target_file)

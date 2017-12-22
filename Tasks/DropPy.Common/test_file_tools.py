@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import os
 import pytest
 from shutil import copyfile, copytree
-from file_tools import touch_file, copy_file, copy_tree, get_file_paths_from_directory, home_dir_to_absolute_path
+from file_tools import touch_file, copy_file, copy_tree, get_file_paths_from_directory
 
 files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
 
@@ -118,9 +118,3 @@ def test_get_file_paths_from_directory():
     return_value = get_file_paths_from_directory(dir_path=files_dir)
     assert (os.path.join(files_dir, 'my_textfile.txt') in return_value) is True
     assert (os.path.join(files_dir, 'some_subdir', 'IMG_1248.JPG') in return_value) is True
-
-
-def test_home_dir_to_absolute_path():
-    input_path = '~/Downloads'
-    return_value = home_dir_to_absolute_path(file_path=input_path)
-    assert return_value.startswith('~') is False
