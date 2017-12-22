@@ -26,6 +26,7 @@
     {
       "task": "FileSystem.CopyToSourceDirectory",
       "kwargs": {
+        "overwrite_existing": true,
         "fallback_path": "~/Downloads"
       }
     }
