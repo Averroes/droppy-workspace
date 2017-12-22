@@ -15,21 +15,23 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/markdown-remove-section
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         section_start_regex = re.compile(kwargs.get(str('section_start_regex'), r'^# TOC$'))
         section_end_regex = re.compile(kwargs.get(str('section_end_regex'), r'^---$'))
 
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                self.remove_section(input_path, output_dir, section_start_regex, section_end_regex)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            elif os.path.isdir(input_path):
-                output_sub_dir = os.path.join(output_dir, os.path.basename(input_path))
+            if os.path.isfile(item_path):
+                self.remove_section(item_path, output_dir, section_start_regex, section_end_regex)
+
+            elif os.path.isdir(item_path):
+                output_sub_dir = os.path.join(output_dir, item_name)
                 os.makedirs(output_sub_dir)
 
-                contained_files = get_file_paths_from_directory(input_path)
+                contained_files = get_file_paths_from_directory(item_path)
                 for contained_file in contained_files:
                     self.remove_section(contained_file, output_sub_dir, section_start_regex, section_end_regex)
 

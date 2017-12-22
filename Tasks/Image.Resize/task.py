@@ -17,7 +17,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/image-resize
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         width = kwargs.get(str('width'), 800)
         height = kwargs.get(str('height'), 600)
@@ -40,15 +40,17 @@ class Task(object):
             sys.exit('No valid filter passed')
 
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                self.resize_file(input_path, output_dir, width, height, resample)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            elif os.path.isdir(input_path):
-                output_sub_dir = os.path.join(output_dir, os.path.basename(input_path))
+            if os.path.isfile(item_path):
+                self.resize_file(item_path, output_dir, width, height, resample)
+
+            elif os.path.isdir(item_path):
+                output_sub_dir = os.path.join(output_dir, item_name)
                 os.makedirs(output_sub_dir)
 
-                contained_files = get_file_paths_from_directory(input_path)
+                contained_files = get_file_paths_from_directory(item_path)
                 for contained_file in contained_files:
                     self.resize_file(contained_file, output_sub_dir, width, height, resample)
 

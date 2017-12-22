@@ -14,7 +14,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/text-append
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         target_file = kwargs.get(str('target_file'), '')
 
@@ -28,12 +28,14 @@ class Task(object):
             sys.exit('No target_file passed to append to')
 
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                self.append_to_file(input_path, target_file)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            elif os.path.isdir(input_path):
-                contained_files = get_file_paths_from_directory(input_path)
+            if os.path.isfile(item_path):
+                self.append_to_file(item_path, target_file)
+
+            elif os.path.isdir(item_path):
+                contained_files = get_file_paths_from_directory(item_path)
                 for contained_file in contained_files:
                     self.append_to_file(contained_file, target_file)
 

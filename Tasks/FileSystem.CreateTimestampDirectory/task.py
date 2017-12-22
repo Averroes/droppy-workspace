@@ -14,7 +14,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/filesystem-create-timestamp-directory
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         name_pattern = kwargs.get(str('name_pattern'), '%Y-%m-%d_%H%M%S')
 
@@ -25,14 +25,14 @@ class Task(object):
         timestamp_dir = self.create_directory(output_dir, name_pattern)
 
         # Process files and directories.
-        for input_path in input_paths:
-            target_name = os.path.basename(input_path)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            if os.path.isfile(input_path):
-                copy_file(input_path, os.path.join(timestamp_dir, target_name), False)
+            if os.path.isfile(item_path):
+                copy_file(item_path, os.path.join(timestamp_dir, item_name), False)
 
-            elif os.path.isdir(input_path):
-                copy_tree(input_path, os.path.join(timestamp_dir, target_name), False)
+            elif os.path.isdir(item_path):
+                copy_tree(item_path, os.path.join(timestamp_dir, item_name), False)
 
     @staticmethod
     def create_directory(output_dir, name_pattern):

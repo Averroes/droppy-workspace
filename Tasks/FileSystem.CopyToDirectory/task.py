@@ -14,7 +14,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/filesystem-copy-to-directory
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         directory = kwargs.get(str('directory'), '')
         create = kwargs.get(str('create_directory'), False)
@@ -28,20 +28,18 @@ class Task(object):
             sys.exit('No directory passed to copy to')
 
         # Process files and directories.
-        for input_path in input_paths:
-            target_name = os.path.basename(input_path)
-            target_path = os.path.join(directory, target_name)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            if os.path.isfile(input_path):
-                copy_file(input_path, target_path, overwrite)
-                print('Successfully copied file: %s' % target_name)
-            elif os.path.isdir(input_path):
-                copy_tree(input_path, target_path, overwrite)
-                print('Successfully copied directory: %s' % target_name)
+            if os.path.isfile(item_path):
+                copy_file(item_path, os.path.join(directory, item_name), overwrite)
+
+            elif os.path.isdir(item_path):
+                copy_tree(item_path, os.path.join(directory, item_name), overwrite)
 
         # Up to this point our Task has no output. Which means the next Task has no input to work with.
         # So we're re-using the previous Task's output, by passing it down.
-        pass_input_to_output(input_paths, output_dir)
+        pass_input_to_output(input_dir, output_dir)
 
     @staticmethod
     def check_target_directory(directory, create):

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+import os
 import subprocess
 import sys
 
@@ -10,7 +11,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/macos-open-files-in-app
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         app_name = kwargs.get(str('app_name'), '')
 
@@ -19,8 +20,9 @@ class Task(object):
             sys.exit('No app_name passed')
 
         # Process files and directories.
-        for input_path in input_paths:
-            self.open_file(input_path, app_name)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
+            self.open_file(item_path, app_name)
 
     @staticmethod
     def open_file(input_path, app_name):

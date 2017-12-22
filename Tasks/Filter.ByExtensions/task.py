@@ -10,29 +10,29 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/filter-by-extensions
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         extensions = kwargs.get(str('extensions'), ['txt', 'json', 'xml'])
 
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                target_name = os.path.basename(input_path)
-                full_output_path = (os.path.join(output_dir, target_name))
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-                self.check_and_copy(extensions, input_path, full_output_path)
+            if os.path.isfile(item_path):
+                full_output_path = (os.path.join(output_dir, item_name))
+                self.check_and_copy(extensions, item_path, full_output_path)
 
-            elif os.path.isdir(input_path):
-                output_base = os.path.basename(input_path)
+            elif os.path.isdir(item_path):
+                output_base = item_name
                 os.makedirs(os.path.join(output_dir, output_base))
 
-                for root, dirs, files in os.walk(input_path):
+                for root, dirs, files in os.walk(item_path):
                     for d in dirs:
-                        relative_path = root[len(input_path) + 1:]
+                        relative_path = root[len(item_path) + 1:]
                         os.makedirs(os.path.join(output_dir, output_base, relative_path, d))
 
                     for f in files:
-                        relative_path = root[len(input_path)+1:]
+                        relative_path = root[len(item_path) + 1:]
                         full_input_path = os.path.join(root, f)
                         full_output_path = os.path.join(output_dir, output_base, relative_path, f)
 

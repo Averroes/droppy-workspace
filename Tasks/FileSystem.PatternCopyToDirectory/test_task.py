@@ -16,7 +16,7 @@ def test_init(tmpdir):
     images_dir = tmpdir.join('images')
     os.makedirs('%s' % images_dir)
 
-    t = task.Task(input_paths=[],
+    t = task.Task(input_dir=[],
                   output_dir='%s' % output_dir,
                   patterns=[r'^.+\.png'],
                   directories=['%s' % images_dir])
@@ -32,7 +32,7 @@ def test_unfilled_patterns_arg(tmpdir):
     os.makedirs('%s' % images_dir)
 
     with pytest.raises(SystemExit) as exc_info:
-        t = task.Task(input_paths=[],
+        t = task.Task(input_dir=[],
                       output_dir='%s' % output_dir,
                       directories=['%s' % images_dir])
 
@@ -44,7 +44,7 @@ def test_unfilled_directories_arg(tmpdir):
     os.makedirs('%s' % output_dir)
 
     with pytest.raises(SystemExit) as exc_info:
-        t = task.Task(input_paths=[],
+        t = task.Task(input_dir=[],
                       output_dir='%s' % output_dir,
                       patterns=[r'^.+\.png'])
 
@@ -62,7 +62,7 @@ def test_different_length_patterns_directories_args(tmpdir):
     os.makedirs('%s' % documents_dir)
 
     with pytest.raises(SystemExit) as exc_info:
-        t = task.Task(input_paths=[],
+        t = task.Task(input_dir=[],
                       output_dir='%s' % output_dir,
                       patterns=[r'^.+\.png'],
                       directories=['%s' % images_dir,
@@ -81,9 +81,9 @@ def test_passing_files(tmpdir):
     documents_dir = tmpdir.join('documents')
     os.makedirs('%s' % documents_dir)
 
-    t = task.Task(input_paths=[os.path.join(files_dir, 'böok$ collection', 'pg5903.epub'),
-                               os.path.join(files_dir, 'this_side_up.png'),
-                               os.path.join(files_dir, 'täxt datei.txt')],
+    t = task.Task(input_dir=[os.path.join(files_dir, 'böok$ collection', 'pg5903.epub'),
+                             os.path.join(files_dir, 'this_side_up.png'),
+                             os.path.join(files_dir, 'täxt datei.txt')],
                   output_dir='%s' % output_dir,
                   patterns=[r'^.+\.png',
                             r'^.+\.epub'],

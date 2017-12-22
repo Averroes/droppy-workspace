@@ -17,7 +17,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/web-imgur-upload
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         client_id = kwargs.get(str('client_id'), '')
 
@@ -26,17 +26,19 @@ class Task(object):
             sys.exit('No Imgur client_id passed')
 
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                self.upload_file(input_path, output_dir, client_id)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            elif os.path.isdir(input_path):
-                output_sub_dir = os.path.join(output_dir, os.path.basename(input_path))
+            if os.path.isfile(item_path):
+                self.upload_file(item_path, output_dir, client_id)
+
+            elif os.path.isdir(item_path):
+                output_sub_dir = os.path.join(output_dir, item_name)
                 os.makedirs(output_sub_dir)
 
-                contained_files = get_file_paths_from_directory(input_path)
+                contained_files = get_file_paths_from_directory(item_path)
                 for contained_file in contained_files:
-                    self.upload_file(contained_file, output_dir, client_id)
+                    self.upload_file(contained_file, output_sub_dir, client_id)
 
     @classmethod
     def upload_file(cls, input_file, output_dir, client_id):

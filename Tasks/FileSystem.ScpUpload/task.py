@@ -15,7 +15,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/filesystem-scp-upload
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         server_address = kwargs.get(str('server_address'), '')
         remote_path = kwargs.get(str('remote_path'), '')
@@ -35,12 +35,13 @@ class Task(object):
             sys.exit('scp not found at "%s"' % scp_exe)
 
         # Process files and directories.
-        for input_path in input_paths:
-            self.upload_files(input_path, scp_exe, username, server_address, remote_path)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
+            self.upload_files(item_path, scp_exe, username, server_address, remote_path)
 
         # Up to this point our Task has no output. Which means the next Task has no input to work with.
         # So we're re-using the previous Task's output, by passing it down.
-        pass_input_to_output(input_paths, output_dir)
+        pass_input_to_output(input_dir, output_dir)
 
     @staticmethod
     def upload_files(input_file, scp_exe, username, server_address, remote_path):

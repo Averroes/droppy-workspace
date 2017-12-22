@@ -10,20 +10,21 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/filter-by-utis
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         utis = kwargs.get(str('utis'), ['files'])
         flatten_dir = kwargs.get(str('flatten_dir'), True)
 
         # Process directories.
-        for input_path in input_paths:
-            if os.path.basename(input_path) in utis:
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
+
+            if item_name in utis:
                 if flatten_dir:
-                    print('Copying files from: %s' % os.path.basename(input_path))
-                    copy_tree(input_path, output_dir)
+                    print('Copying files from: %s' % item_name)
+                    copy_tree(item_path, output_dir)
                 else:
-                    print('Copying directory:  %s' % os.path.basename(input_path))
-                    target_name = os.path.basename(input_path)
-                    copy_tree(input_path, os.path.join(output_dir, target_name))
+                    print('Copying directory:  %s' % item_name)
+                    copy_tree(item_path, os.path.join(output_dir, item_name))
             else:
-                print('Skipping directory: %s' % os.path.basename(input_path))
+                print('Skipping directory: %s' % item_name)

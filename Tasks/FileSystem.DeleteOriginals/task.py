@@ -15,7 +15,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/filesystem-delete-originals
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         delete_to_trash = kwargs.get(str('delete_to_trash'), True)
 
@@ -25,12 +25,13 @@ class Task(object):
         for original_path in original_paths:
             if os.path.isfile(original_path):
                 self.delete_file(delete_to_trash, original_path)
+
             elif os.path.isdir(original_path):
                 self.delete_tree(delete_to_trash, original_path)
 
         # Up to this point our Task has no output. Which means the next Task has no input to work with.
         # So we're re-using the previous Task's output, by passing it down.
-        pass_input_to_output(input_paths, output_dir)
+        pass_input_to_output(input_dir, output_dir)
 
     @classmethod
     def delete_file(cls, delete_to_trash, file_path):

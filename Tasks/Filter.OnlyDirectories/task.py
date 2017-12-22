@@ -10,12 +10,13 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/filter-only-directories
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                print('Skipping file: %s' % input_path)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            elif os.path.isdir(input_path):
-                output_name = os.path.basename(input_path)
-                copy_tree(input_path, os.path.join(output_dir, output_name))
+            if os.path.isfile(item_path):
+                print('Skipping file: %s' % item_path)
+
+            elif os.path.isdir(item_path):
+                copy_tree(item_path, os.path.join(output_dir, item_name))

@@ -11,7 +11,7 @@ files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, o
 
 
 def test_init(tmpdir):
-    t = task.Task(input_paths=[],
+    t = task.Task(input_dir=[],
                   output_dir='%s' % tmpdir)
 
     assert isinstance(t, object)
@@ -22,7 +22,7 @@ def test_passing_files(tmpdir):
                    os.path.join(files_dir, 'böok$ collection', 'vom gut und böse.epub')]
     name_pattern = '%Y-%m'
 
-    t = task.Task(input_paths=input_paths,
+    t = task.Task(input_dir=input_paths,
                   output_dir='%s' % tmpdir,
                   name_pattern=name_pattern)
 
@@ -35,7 +35,7 @@ def test_passing_files(tmpdir):
 
 def test_len_zero_name_pattern_arg(tmpdir):
     with pytest.raises(SystemExit) as exc_info:
-        t = task.Task(input_paths=[],
+        t = task.Task(input_dir=[],
                       output_dir='%s' % tmpdir,
                       name_pattern='')
 

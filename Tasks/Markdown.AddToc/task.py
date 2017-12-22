@@ -20,20 +20,22 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/markdown-add-toc
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         toc_header = kwargs.get(str('toc_header'), '# Table of Contents')
 
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                self.add_toc(input_path, output_dir, toc_header)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            elif os.path.isdir(input_path):
-                output_sub_dir = os.path.join(output_dir, os.path.basename(input_path))
+            if os.path.isfile(item_path):
+                self.add_toc(item_path, output_dir, toc_header)
+
+            elif os.path.isdir(item_path):
+                output_sub_dir = os.path.join(output_dir, item_name)
                 os.makedirs(output_sub_dir)
 
-                contained_files = get_file_paths_from_directory(input_path)
+                contained_files = get_file_paths_from_directory(item_path)
                 for contained_file in contained_files:
                     self.add_toc(contained_file, output_sub_dir, toc_header)
 

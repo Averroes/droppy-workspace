@@ -13,7 +13,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/filesystem-rename
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         name = kwargs.get(str('name'), '')
         timestamp_prefix = kwargs.get(str('timestamp_prefix'), False)
@@ -24,7 +24,9 @@ class Task(object):
             sys.exit('No new name provided')
 
         # Process files and directories.
-        for input_path in input_paths:
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
+
             if timestamp_prefix:
                 d = datetime.datetime.now()
                 timestamp = d.strftime(timestamp_pattern)
@@ -33,10 +35,11 @@ class Task(object):
 
             new_output_path = self.get_path_counter(output_dir, timestamp + name)
 
-            if os.path.isfile(input_path):
-                copyfile(input_path, new_output_path)
-            elif os.path.isdir(input_path):
-                copy_tree(input_path, new_output_path)
+            if os.path.isfile(item_path):
+                copyfile(item_path, new_output_path)
+
+            elif os.path.isdir(item_path):
+                copy_tree(item_path, new_output_path)
 
     @staticmethod
     def get_path_counter(output_dir, name):

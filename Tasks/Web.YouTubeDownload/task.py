@@ -12,7 +12,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/web-youtube-download
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         youtubedl_exe = kwargs.get(str('youtubedl_executable'), '/usr/local/bin/youtube-dl')
         output_file_pattern = kwargs.get(str('output_file_pattern'), '%(title)s.%(ext)s')
@@ -23,12 +23,14 @@ class Task(object):
             sys.exit('youtube-dl not found at "%s"' % youtubedl_exe)
 
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                self.download_file(input_path, output_dir, youtubedl_exe, output_file_pattern, other_args)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            elif os.path.isdir(input_path):
-                print('Skipping directory: %s' % input_path)
+            if os.path.isfile(item_path):
+                self.download_file(item_path, output_dir, youtubedl_exe, output_file_pattern, other_args)
+
+            elif os.path.isdir(item_path):
+                print('Skipping directory: %s' % item_path)
 
     @staticmethod
     def download_file(input_file, output_dir, youtubedl_exe, file_name_pattern, other_args):

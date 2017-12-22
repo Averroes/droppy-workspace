@@ -17,7 +17,7 @@ def test_init(tmpdir):
     output_dir = tmpdir.join('1')
     os.makedirs('%s' % output_dir)
 
-    t = task.Task(input_paths=[],
+    t = task.Task(input_dir=[],
                   output_dir='%s' % output_dir,
                   fallback_path='%s' % tmpdir)
 
@@ -32,7 +32,7 @@ def test_unfilled_fallback_path_arg(tmpdir):
     os.makedirs('%s' % output_dir)
 
     with pytest.raises(SystemExit) as exc_info:
-        t = task.Task(input_paths=[],
+        t = task.Task(input_dir=[],
                       output_dir='%s' % output_dir)
 
     assert exc_info.type == SystemExit
@@ -57,7 +57,7 @@ def test_passing_files(tmpdir):
     fallback_dir = tmpdir.join('fallback')
     os.makedirs('%s' % fallback_dir)
 
-    t = task.Task(input_paths=['%s' % input_dir.join('this_side_up_0.png'),
+    t = task.Task(input_dir=['%s' % input_dir.join('this_side_up_0.png'),
                                '%s' % input_dir.join('äudio collection 0')],
                   output_dir='%s' % output_dir,
                   fallback_path='%s' % fallback_dir)

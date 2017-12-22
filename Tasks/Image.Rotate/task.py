@@ -17,7 +17,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/image-rotate
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         degrees = kwargs.get(str('degrees'), 90.0)
         expand_arg = kwargs.get(str('expand'), True)
@@ -31,15 +31,17 @@ class Task(object):
             sys.exit('Argument expand invalid')
 
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                self.rotate_file(input_path, output_dir, degrees, expand)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            elif os.path.isdir(input_path):
-                output_sub_dir = os.path.join(output_dir, os.path.basename(input_path))
+            if os.path.isfile(item_path):
+                self.rotate_file(item_path, output_dir, degrees, expand)
+
+            elif os.path.isdir(item_path):
+                output_sub_dir = os.path.join(output_dir, item_name)
                 os.makedirs(output_sub_dir)
 
-                contained_files = get_file_paths_from_directory(input_path)
+                contained_files = get_file_paths_from_directory(item_path)
                 for contained_file in contained_files:
                     self.rotate_file(contained_file, output_sub_dir, degrees, expand)
 

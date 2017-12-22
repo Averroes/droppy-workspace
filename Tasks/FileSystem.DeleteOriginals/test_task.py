@@ -16,7 +16,7 @@ def test_init(tmpdir):
     output_dir = tmpdir.join('1')
     os.makedirs('%s' % output_dir)
 
-    t = task.Task(input_paths=[],
+    t = task.Task(input_dir=[],
                   output_dir='%s' % output_dir,
                   delete_to_trash=False)
 
@@ -39,7 +39,7 @@ def test_passing_files(tmpdir):
 
     assert original_file.check() is True
 
-    t = task.Task(input_paths=[],
+    t = task.Task(input_dir=[],
                   output_dir='%s' % output_dir,
                   delete_to_trash=False)
 

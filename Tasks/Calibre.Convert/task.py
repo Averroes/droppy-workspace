@@ -15,7 +15,7 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/calibre-convert
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         ebookconvert_exe = kwargs.get(str('executable'), '/Applications/calibre.app/Contents/MacOS/ebook-convert')
         extension = kwargs.get(str('extension'), 'mobi')
@@ -25,15 +25,17 @@ class Task(object):
             sys.exit('ebook-convert not found at "%s"' % ebookconvert_exe)
 
         # Process files and directories.
-        for input_path in input_paths:
-            if os.path.isfile(input_path):
-                self.convert_book(input_path, output_dir, ebookconvert_exe, extension)
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            elif os.path.isdir(input_path):
-                output_sub_dir = os.path.join(output_dir, os.path.basename(input_path))
+            if os.path.isfile(item_path):
+                self.convert_book(item_path, output_dir, ebookconvert_exe, extension)
+
+            elif os.path.isdir(item_path):
+                output_sub_dir = os.path.join(output_dir, item_name)
 
                 os.makedirs(output_sub_dir)
-                contained_files = get_file_paths_from_directory(input_path)
+                contained_files = get_file_paths_from_directory(item_path)
 
                 for contained_file in contained_files:
                     self.convert_book(contained_file, output_sub_dir, ebookconvert_exe, extension)

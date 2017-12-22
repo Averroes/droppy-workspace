@@ -25,15 +25,15 @@ def test_get_original_paths(tmpdir):
     output_dir = tmpdir.join('1')
     os.makedirs('%s' % output_dir)
 
-    return_value = get_original_paths(output_path='%s' % output_dir)
+    return_value = get_original_paths(input_or_output_dir='%s' % output_dir)
 
     assert ('%s' % source_dir.join('this_side_up.png') in return_value) is True
     assert ('%s' % source_dir.join('äudio collection') in return_value) is True
 
 
 def test_pass_input_to_output(tmpdir):
-    pass_input_to_output(input_paths=[os.path.join(files_dir, 'some_subdir', 'IMG_1248.JPG'),
-                                      os.path.join(files_dir, 'äudio collection')],
+    pass_input_to_output(input_dir=[os.path.join(files_dir, 'some_subdir', 'IMG_1248.JPG'),
+                                    os.path.join(files_dir, 'äudio collection')],
                          output_dir='%s' % tmpdir)
 
     assert tmpdir.join('IMG_1248.JPG').check() is True

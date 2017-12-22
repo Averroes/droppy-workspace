@@ -14,27 +14,27 @@ class Task(object):
     """
     Documentation: https://docs.droppyapp.com/tasks/filesystem-copy-to-source-directory
     """
-    def __init__(self, input_paths, output_dir, **kwargs):
+    def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
         overwrite = kwargs.get(str('overwrite_existing'), False)
         fallback_path = kwargs.get(str('fallback_path'), '')
 
-        # Process files and directories.
         original_paths = get_original_paths(output_dir)
         parent_path = self.get_parent_path(original_paths, fallback_path)
 
-        for input_path in input_paths:
-            target_name = os.path.basename(input_path)
-            target_path = os.path.join(parent_path, target_name)
+        # Process files and directories.
+        for item_name in os.listdir(input_dir):
+            item_path = os.path.join(input_dir, item_name)
 
-            if os.path.isfile(input_path):
-                copy_file(input_path, target_path, overwrite)
-            elif os.path.isdir(input_path):
-                copy_tree(input_path, target_path, overwrite)
+            if os.path.isfile(item_path):
+                copy_file(item_path, os.path.join(parent_path, item_name), overwrite)
+
+            elif os.path.isdir(item_path):
+                copy_tree(item_path, os.path.join(parent_path, item_name), overwrite)
 
         # Up to this point our Task has no output. Which means the next Task has no input to work with.
         # So we're re-using the previous Task's output, by passing it down.
-        pass_input_to_output(input_paths, output_dir)
+        pass_input_to_output(input_dir, output_dir)
 
     @staticmethod
     def get_parent_path(file_paths, fallback_path):
