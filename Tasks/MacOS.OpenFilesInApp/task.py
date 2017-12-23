@@ -6,6 +6,9 @@ import os
 import subprocess
 import sys
 
+sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, 'DropPy.Common')))
+from task_tools import pass_input_to_output
+
 
 class Task(object):
     """
@@ -23,6 +26,10 @@ class Task(object):
         for item_name in os.listdir(input_dir):
             item_path = os.path.join(input_dir, item_name)
             self.open_file(item_path, app_name)
+
+        # Up to this point our Task has no output. Which means the next Task has no input to work with.
+        # So we're re-using the previous Task's output, by passing it down.
+        pass_input_to_output(input_dir, output_dir)
 
     @staticmethod
     def open_file(input_path, app_name):
