@@ -17,7 +17,8 @@ class Task(object):
     """
     def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
-        ebookconvert_exe = kwargs.get(str('executable'), '/Applications/calibre.app/Contents/MacOS/ebook-convert')
+        ebookconvert_exe = kwargs.get(str('ebookconvert_executable'),
+                                      '/Applications/calibre.app/Contents/MacOS/ebook-convert')
         extension = kwargs.get(str('extension'), 'mobi')
 
         # Check for required external executable.

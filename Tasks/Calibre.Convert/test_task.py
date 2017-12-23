@@ -20,7 +20,7 @@ def test_external_executable_na(tmpdir):
     with pytest.raises(SystemExit) as exc_info:
         t = task.Task(input_dir=[],
                       output_dir='%s' % tmpdir,
-                      executable='/this/path/does/not/exist')
+                      ebookconvert_executable='/this/path/does/not/exist')
 
     assert exc_info.type == SystemExit
 

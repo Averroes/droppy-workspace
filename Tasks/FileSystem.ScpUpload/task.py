@@ -20,7 +20,7 @@ class Task(object):
         server_address = kwargs.get(str('server_address'), '')
         remote_path = kwargs.get(str('remote_path'), '')
         username = kwargs.get(str('username'), '')
-        scp_exe = kwargs.get(str('executable'), '/usr/bin/scp')
+        scp_exe = kwargs.get(str('scp_executable'), '/usr/bin/scp')
 
         # Check for required arguments.
         if len(server_address) == 0:

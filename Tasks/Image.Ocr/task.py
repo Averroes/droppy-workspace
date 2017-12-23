@@ -22,7 +22,7 @@ class Task(object):
     """
     def __init__(self, input_dir, output_dir, **kwargs):
         # Get keyword arguments.
-        tesseract_exe = kwargs.get(str('executable'), '/usr/local/bin/tesseract')
+        tesseract_exe = kwargs.get(str('tesseract_executable'), '/usr/local/bin/tesseract')
         language = kwargs.get(str('language'), 'eng')
         boxes = kwargs.get(str('boxes'), False)
         config = kwargs.get(str('config'), '')

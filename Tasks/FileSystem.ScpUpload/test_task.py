@@ -37,7 +37,7 @@ def test_external_executable_na(tmpdir):
         t = task.Task(input_dir=[],
                       output_dir='%s' % tmpdir,
                       server_address='localhost',
-                      executable='/this/path/does/not/exist/scp',
+                      scp_executable='/this/path/does/not/exist/scp',
                       remote_path='/')
 
     assert exc_info.type == SystemExit
