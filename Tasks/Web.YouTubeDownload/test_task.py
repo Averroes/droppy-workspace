@@ -11,7 +11,7 @@ files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, o
 
 
 def test_init(tmpdir):
-    t = task.Task(input_paths=[],
+    t = task.Task(input_dir=[],
                   output_dir='%s' % tmpdir)
 
     assert isinstance(t, object)
@@ -19,7 +19,7 @@ def test_init(tmpdir):
 
 def test_external_executable_na(tmpdir):
     with pytest.raises(SystemExit) as exc_info:
-        t = task.Task(input_paths=[],
+        t = task.Task(input_dir=[],
                       output_dir='%s' % tmpdir,
                       youtubedl_executable='/this/path/does/not/exist')
 
@@ -32,7 +32,7 @@ def test_passing_files(tmpdir):
     with codecs.open(input_paths[0], encoding='utf-8', mode='w') as file_handler:
         file_handler.write('https://www.youtube.com/watch?v=dJBLa2GmnXg\n')
 
-    t = task.Task(input_paths=input_paths,
+    t = task.Task(input_dir=input_paths,
                   output_dir='%s' % tmpdir)
 
     assert len(tmpdir.listdir()) == 2
