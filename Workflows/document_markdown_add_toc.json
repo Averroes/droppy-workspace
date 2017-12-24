@@ -14,13 +14,19 @@
       }
     },
     {
+      "task": "FileSystem.ExitOnNoInput"
+    },
+    {
       "task": "Filter.ByExtensions",
       "kwargs":
       {
         "extensions": ["md"]
       }
     },
-        {
+    {
+      "task": "FileSystem.ExitOnNoInput"
+    },
+    {
       "task": "Markdown.RemoveSection",
       "kwargs":
       {

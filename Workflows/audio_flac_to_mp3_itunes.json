@@ -14,11 +14,17 @@
       }
     },
     {
+      "task": "FileSystem.ExitOnNoInput"
+    },
+    {
       "task": "Filter.ByExtensions",
       "kwargs":
       {
         "extensions": ["flac"]
       }
+    },
+    {
+      "task": "FileSystem.ExitOnNoInput"
     },
     {
       "task": "Audio.FlacToMp3",
