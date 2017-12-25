@@ -3,21 +3,22 @@
 
 from __future__ import unicode_literals
 import os
+import py
 import pytest
-from shutil import copyfile, copytree
+import shutil
 import task
 
-files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
+files_dir = py.path.local(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
 
 
-def test_init(tmpdir):
-    original_dir = tmpdir.join('0', 'files')
-    os.makedirs('%s' % original_dir)
+def test_input_empty(tmpdir):
+    input_dir = tmpdir.join('0', 'files')
+    os.makedirs('%s' % input_dir)
 
     output_dir = tmpdir.join('1')
     os.makedirs('%s' % output_dir)
 
-    t = task.Task(input_dir=[],
+    t = task.Task(input_dir='%s' % input_dir,
                   output_dir='%s' % output_dir,
                   fallback_path='%s' % tmpdir)
 
@@ -25,31 +26,31 @@ def test_init(tmpdir):
 
 
 def test_unfilled_fallback_path_arg(tmpdir):
-    original_dir = tmpdir.join('0', 'files')
-    os.makedirs('%s' % original_dir)
+    input_dir = tmpdir.join('0', 'files')
+    os.makedirs('%s' % input_dir)
 
     output_dir = tmpdir.join('1')
     os.makedirs('%s' % output_dir)
 
     with pytest.raises(SystemExit) as exc_info:
-        t = task.Task(input_dir=[],
+        t = task.Task(input_dir='%s' % input_dir,
                       output_dir='%s' % output_dir)
 
     assert exc_info.type == SystemExit
 
 
-def test_passing_files(tmpdir):
+def test_input_file(tmpdir):
     source_dir = tmpdir.join('-1')
     os.makedirs('%s' % source_dir)
 
-    copyfile(os.path.join(files_dir, 'this_side_up.png'), '%s' % source_dir.join('this_side_up.png'))
-    copytree(os.path.join(files_dir, 'äudio collection'), '%s' % source_dir.join('äudio collection'))
+    shutil.copyfile('%s' % files_dir.join('pg5903.epub'),
+                    '%s' % source_dir.join('pg5903.epub'))
 
     input_dir = tmpdir.join('0', 'files')
     os.makedirs('%s' % input_dir)
 
-    os.symlink('%s' % source_dir.join('this_side_up.png'), '%s' % input_dir.join('this_side_up_0.png'))
-    os.symlink('%s' % source_dir.join('äudio collection'), '%s' % input_dir.join('äudio collection 0'))
+    os.symlink('%s' % source_dir.join('pg5903.epub'),
+               '%s' % input_dir.join('pg5903_0.epub'))
 
     output_dir = tmpdir.join('1')
     os.makedirs('%s' % output_dir)
@@ -57,10 +58,8 @@ def test_passing_files(tmpdir):
     fallback_dir = tmpdir.join('fallback')
     os.makedirs('%s' % fallback_dir)
 
-    t = task.Task(input_dir=['%s' % input_dir.join('this_side_up_0.png'),
-                               '%s' % input_dir.join('äudio collection 0')],
+    t = task.Task(input_dir='%s' % input_dir,
                   output_dir='%s' % output_dir,
                   fallback_path='%s' % fallback_dir)
 
-    assert source_dir.join('this_side_up_0.png').check() is True
-    assert source_dir.join('äudio collection 0').check() is True
+    assert source_dir.join('pg5903_0.epub').check() is True
