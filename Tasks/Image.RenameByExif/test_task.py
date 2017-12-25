@@ -2,32 +2,57 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+import py
 import os
+import shutil
 import task
 
-files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
+files_dir = py.path.local(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
 
 
-def test_init(tmpdir):
-    t = task.Task(input_dir=[],
-                  output_dir='%s' % tmpdir)
+def test_input_empty(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir)
 
     assert isinstance(t, object)
 
 
-def test_passing_files(tmpdir):
-    input_paths = [os.path.join(files_dir, 'some_subdir', 'IMG_1248.JPG')]
+def test_input_file(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir)
+    shutil.copyfile('%s' % files_dir.join('IMG_1248.JPG'),
+                    '%s' % input_dir.join('IMG_1248.JPG'))
 
-    assert tmpdir.join('20170914_102630.jpg').check() is True
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir)
+
+    assert output_dir.join('20170914_102630.jpg').check() is True
 
 
-def test_passing_dirs(tmpdir):
-    input_paths = [os.path.join(files_dir, 'some_subdir')]
+def test_input_folder(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir)
+    input_sub_folder = input_dir.join('some subdir')
+    os.makedirs('%s' % input_sub_folder)
 
-    assert tmpdir.join('some_subdir', '20170914_102630.jpg').check() is True
+    shutil.copyfile('%s' % files_dir.join('IMG_1248.JPG'),
+                    '%s' % input_sub_folder.join('IMG_1248.JPG'))
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir)
+
+    assert output_dir.join('some subdir', '20170914_102630.jpg').check() is True
