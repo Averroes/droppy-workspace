@@ -3,61 +3,59 @@
 
 from __future__ import unicode_literals
 import os
+import py
 import task
 
-files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
+files_dir = py.path.local(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
 
 
-def test_init(tmpdir):
-    input_paths = [os.path.join(files_dir, 'some_subdir')]
+def test_input_empty(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir,
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir,
                   extensions=['txt'])
 
     assert isinstance(t, object)
 
 
-def test_passing_files(tmpdir):
-    input_paths = [os.path.join(files_dir, 'my_textfile.txt'),
-                   os.path.join(files_dir, 'this_side_up.png'),
-                   os.path.join(files_dir, 'some_subdir', 'sämple.md'),
-                   os.path.join(files_dir, 'spécîal chär sübdir', 'another_file')]
+def test_input_file(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    t = task.Task(input_dir=input_paths,
+    input_dir.join('my_textfile.txt').write('foo')
+    input_dir.join('another file').write('bat')
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
                   output_dir='%s' % tmpdir,
-                  extensions=['txt', 'md'])
+                  extensions=['txt'])
 
     assert tmpdir.join('my_textfile.txt').check() is True
-    assert tmpdir.join('this_side_up.png').check() is False
-    assert tmpdir.join('sämple.md').check() is True
-    assert tmpdir.join('another_file').check() is False
+    assert tmpdir.join('another file').check() is False
 
 
-def test_passing_dirs(tmpdir):
-    input_paths = [os.path.join(files_dir, 'some_subdir'),
-                   os.path.join(files_dir, 'spécîal chär sübdir')]
+def test_input_dir(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    t = task.Task(input_dir=input_paths,
+    input_sub_dir = input_dir.join('some subdir')
+    os.makedirs('%s' % input_sub_dir)
+    input_sub_dir.join('my_textfile.txt').write('foo')
+    input_sub_dir.join('another file').write('bat')
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
                   output_dir='%s' % tmpdir,
                   extensions=['txt', 'md'])
 
-    assert tmpdir.join('some_subdir', 'sämple.md').check() is True
-    assert tmpdir.join('spécîal chär sübdir').check() is True
-    assert tmpdir.join('spécîal chär sübdir', 'another_file').check() is False
-
-
-def test_passing_files_and_dirs(tmpdir):
-    input_paths = [os.path.join(files_dir, 'my_textfile.txt'),
-                   os.path.join(files_dir, 'this_side_up.png'),
-                   os.path.join(files_dir, 'spécîal chär sübdir'),
-                   os.path.join(files_dir, 'some_subdir')]
-
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir,
-                  extensions=['txt', 'md'])
-
-    assert tmpdir.join('my_textfile.txt').check() is True
-    assert tmpdir.join('this_side_up.png').check() is False
-    assert tmpdir.join('spécîal chär sübdir', 'another_file').check() is False
-    assert tmpdir.join('some_subdir', 'sämple.md').check() is True
+    assert tmpdir.join('some subdir', 'my_textfile.txt').check() is True
+    assert tmpdir.join('some subdir', 'another file').check() is False
