@@ -26,8 +26,7 @@ def test_input_file(tmpdir):
     os.makedirs('%s' % input_dir)
 
     content_file = input_dir.join('content.txt')
-    with open('%s' % content_file, 'w') as file_handler:
-        file_handler.write('abc')
+    content_file.write('foo bar baz')
 
     output_dir = tmpdir.join('1')
     os.makedirs('%s' % output_dir)
