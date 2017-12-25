@@ -31,6 +31,10 @@ cd FileSystem.DeleteOriginals
 python -B -m pytest -v
 cd ..
 
+cd FileSystem.ExitOnNoInput
+python -B -m pytest -v
+cd ..
+
 cd FileSystem.PatternCopyToDirectory
 python -B -m pytest -v
 cd ..
