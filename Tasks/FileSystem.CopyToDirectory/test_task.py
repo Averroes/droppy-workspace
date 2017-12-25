@@ -39,7 +39,7 @@ def test_unfilled_directory_arg(tmpdir):
     assert exc_info.type == SystemExit
 
 
-def test_passing_files(tmpdir):
+def test_input_file(tmpdir):
     input_dir = tmpdir.join('0')
     os.makedirs('%s' % input_dir)
 
@@ -57,7 +57,7 @@ def test_passing_files(tmpdir):
     assert tmpdir.join('some other dir', 'pg5903.epub').check() is True
 
 
-def test_passing_dir(tmpdir):
+def test_input_folder(tmpdir):
     input_dir = tmpdir.join('0')
     os.makedirs('%s' % input_dir)
 
