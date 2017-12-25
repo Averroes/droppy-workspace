@@ -41,7 +41,7 @@ def test_input_file(tmpdir):
     assert tmpdir.join('another file').check() is False
 
 
-def test_input_dir(tmpdir):
+def test_input_folder(tmpdir):
     input_dir = tmpdir.join('0')
     os.makedirs('%s' % input_dir)
 
