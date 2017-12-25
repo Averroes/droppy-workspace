@@ -3,54 +3,72 @@
 
 from __future__ import unicode_literals
 import os
+import py
+import pytest
 import task
 
-files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
+files_dir = py.path.local(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
 
 
-def test_init(tmpdir):
-    input_paths = [os.path.join(files_dir, 'some_subdir')]
+def test_input_empty(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir,
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir,
                   name='abc.txt')
 
     assert isinstance(t, object)
 
 
-def test_passing_files(tmpdir):
-    input_paths = [os.path.join(files_dir, 'my_textfile.txt'),
-                   os.path.join(files_dir, 'some_subdir', 'sämple.md'),
-                   os.path.join(files_dir, 'spécîal chär sübdir', 'another_file')]
+def test_unfilled_fallback_path_arg(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir,
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    with pytest.raises(SystemExit) as exc_info:
+        t = task.Task(input_dir='%s' % input_dir,
+                      output_dir='%s' % output_dir)
+
+    assert exc_info.type == SystemExit
+
+
+def test_input_file(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
+
+    input_dir.join('my_textfile.txt').write('foo')
+    input_dir.join('another file').write('bar')
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir,
                   name='néw_file name.txt')
 
-    assert tmpdir.join('néw_file name.txt').check() is True
-    assert tmpdir.join('néw_file name copy 1.txt').check() is True
-    assert tmpdir.join('néw_file name copy 2.txt').check() is True
+    assert output_dir.join('néw_file name.txt').check() is True
+    assert output_dir.join('néw_file name copy 1.txt').check() is True
 
 
-def test_passing_dirs(tmpdir):
-    input_paths = [os.path.join(files_dir, 'some_subdir'),
-                   os.path.join(files_dir, 'spécîal chär sübdir')]
+def test_input_dir(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir,
+    os.makedirs('%s' % input_dir.join('some_subdir'))
+    os.makedirs('%s' % input_dir.join('spécîal chär sübdir'))
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir,
                   name='néw_dir name')
 
-    assert tmpdir.join('néw_dir name').check() is True
-    assert tmpdir.join('néw_dir name copy 1').check() is True
-
-
-def test_passing_files_and_dirs(tmpdir):
-    input_paths = [os.path.join(files_dir, 'my_textfile.txt'),
-                   os.path.join(files_dir, 'spécîal chär sübdir')]
-
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir,
-                  name='néw name')
-
-    assert tmpdir.join('néw name').check() is True
-    assert tmpdir.join('néw name copy 1').check() is True
+    assert output_dir.join('néw_dir name').check() is True
+    assert output_dir.join('néw_dir name copy 1').check() is True
