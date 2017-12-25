@@ -21,12 +21,13 @@ def test_input_empty(tmpdir):
     assert exc_info.type == SystemExit
 
 
-def test_input_folder(tmpdir):
+def test_input_file(tmpdir):
     input_dir = tmpdir.join('0')
     os.makedirs('%s' % input_dir)
 
-    content_dir = input_dir.join('content')
-    os.makedirs('%s' % content_dir)
+    content_file = input_dir.join('content.txt')
+    with open('%s' % content_file, 'w') as file_handler:
+        file_handler.write('abc')
 
     output_dir = tmpdir.join('1')
     os.makedirs('%s' % output_dir)
@@ -37,13 +38,12 @@ def test_input_folder(tmpdir):
     assert isinstance(t, object)
 
 
-def test_input_file(tmpdir):
+def test_input_folder(tmpdir):
     input_dir = tmpdir.join('0')
     os.makedirs('%s' % input_dir)
 
-    content_file = input_dir.join('content.txt')
-    with open('%s' % content_file, 'w') as file_handler:
-        file_handler.write('abc')
+    content_dir = input_dir.join('content')
+    os.makedirs('%s' % content_dir)
 
     output_dir = tmpdir.join('1')
     os.makedirs('%s' % output_dir)
