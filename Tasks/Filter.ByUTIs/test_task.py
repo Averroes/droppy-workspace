@@ -5,14 +5,19 @@ from __future__ import unicode_literals
 import os
 import task
 
-files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
 
+def test_input_empty(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-def test_init(tmpdir):
-    input_paths = [os.path.join(files_dir, 'some_subdir')]
+    files_dir = input_dir.join('files')
+    os.makedirs('%s' % files_dir)
 
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir,
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir,
                   utis=['files'])
 
     assert isinstance(t, object)
