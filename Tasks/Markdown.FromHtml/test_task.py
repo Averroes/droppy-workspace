@@ -2,24 +2,39 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+import py
 import os
+import shutil
 import task
 
-files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
+files_dir = py.path.local(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
 
 
-def test_init(tmpdir):
-    t = task.Task(input_dir=[],
-                  output_dir='%s' % tmpdir)
+def test_input_empty(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir)
 
     assert isinstance(t, object)
 
 
-def test_passing_files(tmpdir):
-    input_paths = [os.path.join(files_dir, 'sämple.html')]
+def test_input_file(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    t = task.Task(input_dir=input_paths,
-                  output_dir='%s' % tmpdir)
+    shutil.copyfile('%s' % files_dir.join('sämple.html'),
+                    '%s' % input_dir.join('sämple.html'))
 
-    assert tmpdir.join('sämple.md').check() is True
-    assert os.path.getsize('%s' % tmpdir.join('sämple.md')) > 15000
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir)
+
+    assert output_dir.join('sämple.md').check() is True
+    assert os.path.getsize('%s' % output_dir.join('sämple.md')) > 15000
