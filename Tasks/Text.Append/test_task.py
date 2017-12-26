@@ -6,7 +6,6 @@ import codecs
 import py
 import pytest
 import os
-import shutil
 import task
 
 files_dir = py.path.local(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
@@ -53,7 +52,7 @@ def test_passing_files(tmpdir):
     os.makedirs('%s' % output_dir)
 
     t = task.Task(input_dir='%s' % input_dir,
-                  output_dir='%s' % tmpdir,
+                  output_dir='%s' % output_dir,
                   target_file='%s' % tmpdir.join('output.txt'))
 
     assert tmpdir.join('output.txt').check() is True
