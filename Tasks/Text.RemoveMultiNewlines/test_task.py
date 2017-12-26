@@ -23,7 +23,7 @@ def test_input_empty(tmpdir):
     assert isinstance(t, object)
 
 
-def test_passing_files(tmpdir):
+def test_input_file(tmpdir):
     input_dir = tmpdir.join('0')
     os.makedirs('%s' % input_dir)
 

@@ -39,7 +39,7 @@ def test_unfilled_target_file_arg(tmpdir):
     assert exc_info.type == SystemExit
 
 
-def test_passing_files(tmpdir):
+def test_input_file(tmpdir):
     input_dir = tmpdir.join('0')
     os.makedirs('%s' % input_dir)
 
