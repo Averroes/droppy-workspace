@@ -1,5 +1,10 @@
 # droppy-workspace
 
+![python](https://img.shields.io/badge/python-2.7%2C%203.6-brightgreen.svg)
+![tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)
+![license](https://img.shields.io/badge/license-MIT-blue.svg)
+![platform](https://img.shields.io/badge/platform-macos-lightgrey.svg)
+
 All the *Workflows*, *Tasks* and *Images* that come with the **DropPy** macOS app.
 
 ## Product page
@@ -41,7 +46,7 @@ Execute *pytest* using the interpreter of your choice here:
     python3 -B -m pytest -v
 
 Running *pytest* over the complete `Tasks` directory at once is not possible because for **DropPy** all modules need to have the same filename `task.py`.
-This is a structure *pytest* doesn't get along with. The tests need to be for each *Task* separately.
+This is a structure *pytest* doesn't get along with. The tests need to be run for each *Task* separately.
 
 To automate this two scripts are provided:
 
@@ -51,7 +56,7 @@ To automate this two scripts are provided:
      
     . run_all_py36.sh
 
-### Documentation
+### Resources
 
 - [pytest](https://docs.pytest.org/en/latest/)
 - [py.path](http://py.readthedocs.io/en/latest/path.html)
