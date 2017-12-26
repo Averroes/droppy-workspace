@@ -2,31 +2,54 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-import os
+import py
 import pytest
+import os
+import shutil
 import task
 
-files_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
+files_dir = py.path.local(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, 'Test', 'files'))
 
 
-def test_init(tmpdir):
-    t = task.Task(input_dir=[],
-                  output_dir='%s' % tmpdir)
+def test_input_empty(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir)
 
     assert isinstance(t, object)
 
 
 def test_external_executable_na(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
     with pytest.raises(SystemExit) as exc_info:
-        t = task.Task(input_dir=[],
-                      output_dir='%s' % tmpdir,
+        t = task.Task(input_dir='%s' % input_dir,
+                      output_dir='%s' % output_dir,
                       ffmpeg_executable='/this/path/does/not/exist')
 
     assert exc_info.type == SystemExit
 
 
-def test_passing_files(tmpdir):
-    t = task.Task(input_dir=[os.path.join(files_dir, 'this_side_up.png')],
-                  output_dir='%s' % tmpdir)
+def test_input_file(tmpdir):
+    input_dir = tmpdir.join('0')
+    os.makedirs('%s' % input_dir)
 
-    assert tmpdir.join('this_side_up.m4v').check() is True
+    shutil.copyfile('%s' % files_dir.join('this_side_up.png'),
+                    '%s' % input_dir.join('this_side_up.png'))
+
+    output_dir = tmpdir.join('1')
+    os.makedirs('%s' % output_dir)
+
+    t = task.Task(input_dir='%s' % input_dir,
+                  output_dir='%s' % output_dir)
+
+    assert output_dir.join('this_side_up.m4v').check() is True
