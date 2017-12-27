@@ -40,7 +40,10 @@ def normalize_tag(key_and_value):
 def capitalize_after_char(string, char):
     tmp = []
     for word in string.split(char):
-        tmp.append(word[0].upper() + word[1:])
+        if len(word) > 0:
+            tmp.append(word[0].upper() + word[1:])
+        else:
+            tmp.append(word[1:])
     return char.join(tmp)
 
 
