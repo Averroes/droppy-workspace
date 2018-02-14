@@ -1,0 +1,40 @@
+{
+  "name": "Audio flac to opus",
+  "author": "guenther@droppyapp.com",
+  "description": "Convert any dropped FLAC file to opus in place.",
+  "documentation": "https://docs.droppyapp.com/workflows/audio-flac-to-mp3-itunes",
+  "image": "flac.png",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "FileSystem.ExitOnNoInput"
+    },
+    {
+      "task": "Filter.ByExtensions",
+      "kwargs":
+      {
+        "extensions": ["flac"]
+      }
+    },
+    {
+      "task": "FileSystem.ExitOnNoInput"
+    },
+    {
+      "task": "Audio.FlacToOpus"
+    },
+    {
+      "task": "FileSystem.CopyToSourceDirectory",
+      "kwargs":
+      {
+        "fallback_path": "~/Downloads"
+      }
+    }
+  ]
+}
