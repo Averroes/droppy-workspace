@@ -1,0 +1,38 @@
+{
+  "name": "Analyze Windows exe",
+  "author": "guenther@droppyapp.com",
+  "description": "Analyze a Windows executable by running the strings command on it.",
+  "interpreterName": "macOS pre-installed",
+  "queue": [
+    {
+      "task": "Filter.ByUTIs",
+      "kwargs":
+      {
+        "utis": ["files"]
+      }
+    },
+    {
+      "task": "FileSystem.ExitOnNoInput"
+    },
+    {
+      "task": "Filter.ByExtensions",
+      "kwargs":
+      {
+        "extensions": ["exe"]
+      }
+    },
+    {
+      "task": "FileSystem.ExitOnNoInput"
+    },
+    {
+      "task": "FileSystem.Strings"
+    },
+    {
+      "task": "FileSystem.CopyToSourceDirectory",
+      "kwargs": {
+        "overwrite_existing": true,
+        "fallback_path": "~/Downloads"
+      }
+    }
+  ]
+}
